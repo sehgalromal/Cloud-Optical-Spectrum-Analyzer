@@ -101,7 +101,7 @@
             </tbody>
         </table>
         <hr style="height:2px;border-width:0;color:gray;background-color:gray"> 
-        <h4 style="text-align: center;"><b>Fetch OSA Trace and Display Graph</b></h2>
+        <h4 style="text-align: center;"><b>Generate Graph</b></h2>
         <h5 style="text-align: center;"><b>Important Note: </b>If you want to set x-axis limits first (b/w 1515 and 1580) ,</h5> 
         <h5 style="text-align: center;">then run the "/cmd/LIM/[min,max]" as shown below on the main page</h5>
         <br>
@@ -235,7 +235,10 @@
             $("button#command_prompt").click(function(){
                 $.get("/cmd", function(res){
                     $("#command-prompt-response").val(res); 
-                    debug_area.val(debug_area.val() + "[" + current_time  + "]" + " ------   " + res + "\n")
+                    debug_area.val(debug_area.val() + "[" + current_time  + "]" + " ------   " + res + "\n");
+                    setTimeout(function(){
+                        $("#command-prompt-response").val(""); 
+                    }, 5000);
                 });
             });
 
@@ -244,7 +247,10 @@
                 $.get("/cmd/IDN", function(res){
                     $("#identification-string-response").val(res); 
                     debug_area.val(debug_area.val() + "[" + current_time  + "]" + "  ------   " + res + "\n")
-                })
+                    setTimeout(function(){
+                        $("#identification-string-response").val(""); 
+                    }, 5000);
+                }); 
             });
 
             // This function sets the x-axis limits 
@@ -252,7 +258,10 @@
                 $.get("/cmd/LIM", function(res){
                     $("#x-axis-limits-response").val(res); 
                     debug_area.val(debug_area.val() + "[" + current_time  + "]" + "  ------   " + res + "\n")
-                })
+                    setTimeout(function(){
+                        $("#x-axis-limits-response").val(""); 
+                    }, 5000);
+                });
             });
 
             // This function takes the input from the user and sends it to OSA which emulates the query commands 
@@ -262,7 +271,10 @@
                 $.get("/cmd/ECHO/" + string, function(res){
                     $("#echo-string-response").val(res); 
                     debug_area.val(debug_area.val() + "[" + current_time  + "]" + "  ------   " + res + "\n")
-                })
+                    setTimeout(function(){
+                        $("#echo-string-response").val(""); 
+                    }, 5000);
+                });
             });
 
             // This function returns PONG
@@ -270,7 +282,10 @@
                 $.get("/cmd/PING", function(res){
                     $("#ping-command-response").val(res); 
                     debug_area.val(debug_area.val() + "[" + current_time  + "]" + "  ------   " + res + "\n")
-                })
+                    setTimeout(function(){
+                        $("#ping-command-response").val(""); 
+                    }, 5000);
+                });
             });
 
             // This function returns the state of the OSA 
@@ -278,6 +293,9 @@
                 $.get("/cmd/STATE", function(res){
                     $("#state-command-response").val(res); 
                     debug_area.val(debug_area.val() + "[" + current_time  + "]" + "  ------   " + res + "\n")
+                    setTimeout(function(){
+                        $("#state-command-response").val(""); 
+                    }, 5000);
                 });
             });
 
@@ -287,6 +305,9 @@
                 $.get("/cmd/START",function(res){
                     $("#start-button-response").val(res);
                     debug_area.val(debug_area.val() + "[" + current_time  + "]" + "  ------   " + res + "\n")
+                    setTimeout(function(){
+                        $("#start-button-response").val(""); 
+                    }, 5000);
                 });
             });
 
@@ -295,6 +316,9 @@
                 $.get("/cmd/STOP", function(res){
                     $("#stop-button-response").val(res); 
                     debug_area.val(debug_area.val() + "[" + current_time  + "]" + "  ------   " + res + "\n")
+                    setTimeout(function(){
+                        $("#stop-button-response").val(""); 
+                    }, 5000);
                 });
             });
 
@@ -302,7 +326,10 @@
             $("button#single_button").click(function(){
                 $.get("/cmd/SINGLE", function(res){
                     $("#single-button-response").val(res); 
-                    debug_area.val(debug_area.val() + "[" + current_time  + "]" + "  ------   " + res + "\n")
+                    debug_area.val(debug_area.val() + "[" + current_time  + "]" + "  ------   " + res + "\n");
+                    setTimeout(function(){
+                        $("#single-button-response").val(""); 
+                    }, 3000);
                 });
             });
 
@@ -315,10 +342,12 @@
                     $.get("/cmd/LIM/[" + value.toString() + "]",function(res){
                         $("#limit-button-response").val(res);
                         debug_area.val(debug_area.val() + "[" + current_time  + "]" + "  ------   " + res + "\n")
+                        setTimeout(function(){
+                            $("#limit-button-response").val("");
+                        }, 5000);
                     });
                 } else{
-                    console.log("wrong values entered");
-                    $("#limit_values").after("<p id='error_occured'>Please enter the values in the specified range!!</p>");       
+                    alert("limits must be in the range of [1515, 1580]");
                 }
             });
 
@@ -343,6 +372,9 @@
                     plotGraph(data, res.xlabel, res.ylabel);
                     debug_area.val(debug_area.val() + "[" + current_time  + "]" + "  ------   " + "Graph Generated from OSA Trace values" + "\n")
                     $("#container-graph-instructions").css("visibility", "visible"); 
+                    setTimeout(function(){
+                        $("#generate-button-response").val("");
+                    }, 5000);
                 });
             });
         });    
