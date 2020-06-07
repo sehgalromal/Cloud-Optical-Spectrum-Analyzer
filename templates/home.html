@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+
+    <title>Cloud Optical Spectrum Analyzer</title>
+    <style>
+        .row {
+            width: 100%;
+            margin: 0 auto;
+        }
+        .title {
+            text-align: center;
+        }
+        .vl {
+            border-left: 6px solid green;
+            height: 500px;
+        }
+        .control-panel {
+            float: right;
+            margin-right: 45px;
+        }
+        #control-panel-title {
+            margin-right: 85px;
+        }
+
+        .vl {
+            border-left: 1px solid black;
+            margin-right: 120px;
+            float: right;
+            height: 1150px;
+        }
+
+        #start_button 
+        #stop_button {
+            margin-left: 25px;
+        }
+
+        #limit_values {
+            margin-right: 35px;
+        }
+    </style>
+</head>
+<body>
+    <h1 class="title">Cloud Optical Spectrum Analyzer Web App</h1>
+    <div class="control-panel">
+        <h2 style="text-align: center;" id="control-panel-title">OSA Control Panel Area</h2>
+        <br>
+        <a style="text-align: center" href="/instructions">Refer to this link to learn more about interacting with this application</a>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th style="text-align: center; font-size: large;" colspan="3">
+                        General Commands
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        Start Aquisition  &nbsp;&nbsp;&nbsp;&nbsp;
+                    </td>
+                    <td>
+                        <button id="start_button" type="button" class="btn btn-success btn-md">Start</button>
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                    </td>
+                    <td>
+                        <input disabled class="control-panel-field" id="start-button-response" type="text" placeholder="ResponseField">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Stops Aquisition  &nbsp;&nbsp;&nbsp;&nbsp;
+                    </td>
+                    <td>
+                        <button id="stop_button" type="button" class="btn btn-danger">Stop</button>
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                    </td>
+                    <td>
+                        <input disabled class="control-panel-field" id="stop-button-response" type="text" placeholder="ResponseField">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Single Trace &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                        Note: <strong>Takes few seconds<strong>
+                    </td>
+                    <td>
+                    <button id="single_button" type="button" class="btn btn-info">Fetch Single</button>
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                    </td>
+                    <td>
+                        <input disabled class="control-panel-field" id="single-button-response" type="text" placeholder="ResponseField">
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <hr style="height:2px;border-width:0;color:gray;background-color:gray"> 
+        <h4 style="text-align: center;"><b>Fetch OSA Trace and Display Graph</b></h2>
+        <h5 style="text-align: center;"><b>Important Note: </b>If you want to set x-axis limits first (b/w 1515 and 1580) ,</h5> 
+        <h5 style="text-align: center;">then run the "/cmd/LIM/[min,max]" as shown below on the main page</h5>
+        <br>
+        <div style="border-style: solid; padding: 20px; border-width: 1px;" class="row">
+            <div style="text-align: center;">
+                <button id="generate_graph" type="button">Display Graph</button>
+                <input disabled class="control-panel-field" id="generate-button-response" type="text" placeholder="ResponseField">
+            </div>
+        </div>
+        <hr style="height:2px;border-width:0;color:gray;background-color:gray"> 
+        <h4 style="text-align: center;">Communicate with OSA by these commands</h4>
+        <table class="table">
+            <thead>
+                <tr>
+                <th scope="col">
+                    Command
+                </th>
+                <th scope="col">
+                    Send Command &nbsp;&nbsp;&nbsp;&nbsp;
+                </th>
+                <th scope="col">
+                    Response
+                </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <b>/cmd</b> 
+                    </td>
+                    <td>&nbsp;&nbsp;&nbsp;&nbsp;
+                        <button id="command_prompt" type="button" class="btn btn-success btn-sm">Send</button>
+                    </td>
+                    <td>
+                        <input disabled class="control-panel-field" id="command-prompt-response" type="text" placeholder="ResponseField">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <b>/cmd/IDN</b>
+                    </td>
+                    <td>&nbsp;&nbsp;&nbsp;&nbsp;
+                        <button id="identification_string" type="button" class="btn btn-success btn-sm">Send</button>
+                    </td>
+                    <td>
+                        <input disabled class="control-panel-field" id="identification-string-response" type="text" placeholder="ResponseField">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <b>/cmd/LIM</b> 
+                    </td>
+                    <td>&nbsp;&nbsp;&nbsp;&nbsp;
+                        <button id="x-axis-limits" type="button" class="btn btn-success btn-sm">Send</button>
+                    </td>
+                    <td>
+                        <input disabled class="control-panel-field" id="x-axis-limits-response" type="text" placeholder="ResponseField">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <b>/cmd/LIM/[min max]</b>
+                    </td>
+                    <td>
+                    <b>Must be between 1515 and 1580</b><br><br>
+                    &nbsp;Min. Value: <input id="min_range_nm" type="number"><br><br>
+                        Max. Value: <input id="max_range_nm" type="number"><br><br>
+
+                        <button id="limit_values" type="button" class="btn btn-success btn-sm">Set Limits</button>
+                    </td>
+                    <td>
+                        <input disabled class="control-panel-field" id="limit-button-response" type="text" placeholder="ResponseField">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <b>cmd/ECHO/string</b>
+                    <td>
+                         Enter the String: <input id="echo_string_input" type="text"><br><br>
+                        <button id="echo-string-command" type="button" class="btn btn-success btn-sm">Send</button>
+                    </td>
+                    <td>
+                        <input disabled class="control-panel-field" id="echo-string-response" type="text" placeholder="ResponseField">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <b>/cmd/PING</b>
+                    <td>
+                        <button id="ping-command" type="button" class="btn btn-success btn-sm">Send</button>
+                    </td>
+                    <td>
+                        <input disabled class="control-panel-field" id="ping-command-response" type="text" placeholder="ResponseField">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <b>/cmd/STATE</b>
+                    <td>
+                        <button id="state-command" type="button" class="btn btn-success btn-sm">Send</button>
+                    </td>
+                    <td>
+                        <input disabled class="control-panel-field" id="state-command-response" type="text" placeholder="ResponseField">
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div style="margin-left: 5px" class="row">
+        <div class="vl"></div>
+        <div class="chart-container" style="height: 400px; position: relative; height:70vh; width:45vw">
+            <div id="container"></div>
+            <div id="container-graph-instructions" style="visibility: hidden;">
+            </div>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><b>Communication Log Area</b></span>
+                </div>
+                <textarea readonly rows="4" cols="250" id="debug_window" class="form-control" aria-label="With textarea"></textarea>
+                <br>
+                <button type="button" class="btn btn-primary" id="clear_button">Clear</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function(event) {
+            var debug_area = $("textarea#debug_window"); 
+            var current_time = Date();
+            
+            // returns the command prompt 
+            $("button#command_prompt").click(function(){
+                $.get("/cmd", function(res){
+                    $("#command-prompt-response").val(res); 
+                    debug_area.val(debug_area.val() + "[" + current_time  + "]" + " ------   " + res + "\n")
+                });
+            });
+
+            // This function returns the identification string 
+            $("button#identification_string").click(function(){
+                $.get("/cmd/IDN", function(res){
+                    $("#identification-string-response").val(res); 
+                    debug_area.val(debug_area.val() + "[" + current_time  + "]" + "  ------   " + res + "\n")
+                })
+            });
+
+            // This function sets the x-axis limits 
+            $("button#x-axis-limits").click(function(){
+                $.get("/cmd/LIM", function(res){
+                    $("#x-axis-limits-response").val(res); 
+                    debug_area.val(debug_area.val() + "[" + current_time  + "]" + "  ------   " + res + "\n")
+                })
+            });
+
+            // This function takes the input from the user and sends it to OSA which emulates the query commands 
+            // and then the same string back as entered by the user 
+            $("button#echo-string-command").click(function(){
+                var string = $("#echo_string_input").val() 
+                $.get("/cmd/ECHO/" + string, function(res){
+                    $("#echo-string-response").val(res); 
+                    debug_area.val(debug_area.val() + "[" + current_time  + "]" + "  ------   " + res + "\n")
+                })
+            });
+
+            // This function returns PONG
+            $("button#ping-command").click(function(){
+                $.get("/cmd/PING", function(res){
+                    $("#ping-command-response").val(res); 
+                    debug_area.val(debug_area.val() + "[" + current_time  + "]" + "  ------   " + res + "\n")
+                })
+            });
+
+            // This function returns the state of the OSA 
+            $('button#state-command').click(function(){
+                $.get("/cmd/STATE", function(res){
+                    $("#state-command-response").val(res); 
+                    debug_area.val(debug_area.val() + "[" + current_time  + "]" + "  ------   " + res + "\n")
+                });
+            });
+
+
+            // Start initiates the continuous aquisition with 1 Hz refresh rate 
+            $('button#start_button').click(function(){
+                $.get("/cmd/START",function(res){
+                    $("#start-button-response").val(res);
+                    debug_area.val(debug_area.val() + "[" + current_time  + "]" + "  ------   " + res + "\n")
+                });
+            });
+
+            // This function is responsible for stopping the OSA aquisition 
+            $('button#stop_button').click(function(){
+                $.get("/cmd/STOP", function(res){
+                    $("#stop-button-response").val(res); 
+                    debug_area.val(debug_area.val() + "[" + current_time  + "]" + "  ------   " + res + "\n")
+                });
+            });
+
+            // This function activates when the users want retrives Single OSA Trace 
+            $("button#single_button").click(function(){
+                $.get("/cmd/SINGLE", function(res){
+                    $("#single-button-response").val(res); 
+                    debug_area.val(debug_area.val() + "[" + current_time  + "]" + "  ------   " + res + "\n")
+                });
+            });
+
+            // This function activates when the users set the x-axis limit values for OSA 
+            $('button#limit_values').click(function(){
+                first_val = $("#min_range_nm").val();
+                second_val = $("#max_range_nm").val();
+                if((first_val >= 1516 && second_val <= 1579) && (first_val < second_val)){
+                    var value = [first_val,second_val];
+                    $.get("/cmd/LIM/[" + value.toString() + "]",function(res){
+                        $("#limit-button-response").val(res);
+                        debug_area.val(debug_area.val() + "[" + current_time  + "]" + "  ------   " + res + "\n")
+                    });
+                } else{
+                    console.log("wrong values entered");
+                    $("#limit_values").after("<p id='error_occured'>Please enter the values in the specified range!!</p>");       
+                }
+            });
+        });    
+
+        $("button#clear_button").click(function(){
+            $("textarea").val("");
+        });
+
+        // As the user clicks on the generate graph button, it fetches the trace from the specifie api link
+        // which returns the json response
+        // The response is processed based on requirements to display OSA trace graph 
+        // and specific attributes are accessed for displaying the graph 
+        $("#generate_graph").click(function(){
+            $.getJSON("/cmd/TRACE", function(res){
+                $("#generate-button-response").val("Success!! Graph Generated");
+                var data = [] 
+                xdata = [] 
+                for(var i = 0; i < res.xdata.length; i++){
+                    // data.push({x: res.xdata[i] * (Math.pow(10, 9)), y: res.ydata[i]});
+                    data.push([res.xdata[i] * (Math.pow(10, 9)), res.ydata[i]])
+                    xdata.push(res.xdata[i])
+                }
+                plotGraph(data, res.xlabel, res.ylabel);
+                $("#container-graph-instructions").css("visibility", "visible"); 
+            });
+        });
+
+        // This function is responsible for plotting the OSA Trace graph
+        function plotGraph(data, xlabel, ylabel, xdata){
+            Highcharts.chart('container', {
+                chart: { 
+                    zoomType: 'x'
+                },
+
+                title: { 
+                    text: "EXFO's Optical Spectrum Analyzer"
+                },
+
+                subtitle: { 
+                    text: "Total Datapoints: " + data.length 
+                },
+
+                tooltip: { 
+                    valueDecimals: 2 
+                },
+
+                yAxis: {
+                    title: {
+                        text: "dbM"
+                    },
+                },
+
+
+                xAxis: { 
+                    formatter: function() {
+                        return xdata[this.value];
+                        }
+                    },
+                    
+                series: [{
+                    data: data,
+                    lineWidth: 1,
+                    color: "#008000",
+                    name: "datapoint"
+                
+                    }],
+
+                credits: {
+                    enabled: false
+                    },
+            });
+    }
+
+    </script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/boost.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+</body>
+</html>
