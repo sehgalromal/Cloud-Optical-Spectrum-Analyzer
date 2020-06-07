@@ -220,7 +220,7 @@
                 <div class="input-group-prepend">
                     <span class="input-group-text"><b>Communication Log Area</b></span>
                 </div>
-                <textarea readonly rows="4" cols="320" id="debug_window" class="form-control" aria-label="With textarea"></textarea>
+                <textarea readonly rows="4" cols="250" id="debug_window" class="form-control" aria-label="With textarea"></textarea>
                 <br>
                 <button type="button" class="btn btn-primary" id="clear_button">Clear</button>
             </div>
@@ -321,31 +321,32 @@
                     $("#limit_values").after("<p id='error_occured'>Please enter the values in the specified range!!</p>");       
                 }
             });
+
+            $("button#clear_button").click(function(){
+                $("textarea").val("");
+            });
+
+            // As the user clicks on the generate graph button, it fetches the trace from the specifie api link
+            // which returns the json response
+            // The response is processed based on requirements to display OSA trace graph 
+            // and specific attributes are accessed for displaying the graph 
+            $("#generate_graph").click(function(){
+                $.getJSON("/cmd/TRACE", function(res){
+                    $("#generate-button-response").val("Success!! Graph Generated");
+                    var data = [] 
+                    xdata = [] 
+                    for(var i = 0; i < res.xdata.length; i++){
+                        // data.push({x: res.xdata[i] * (Math.pow(10, 9)), y: res.ydata[i]});
+                        data.push([res.xdata[i] * (Math.pow(10, 9)), res.ydata[i]])
+                        xdata.push(res.xdata[i])
+                    }
+                    plotGraph(data, res.xlabel, res.ylabel);
+                    debug_area.val(debug_area.val() + "[" + current_time  + "]" + "  ------   " + "Graph Generated from OSA Trace values" + "\n")
+                    $("#container-graph-instructions").css("visibility", "visible"); 
+                });
+            });
         });    
 
-        $("button#clear_button").click(function(){
-            $("textarea").val("");
-        });
-
-        // As the user clicks on the generate graph button, it fetches the trace from the specifie api link
-        // which returns the json response
-        // The response is processed based on requirements to display OSA trace graph 
-        // and specific attributes are accessed for displaying the graph 
-        $("#generate_graph").click(function(){
-            $.getJSON("/cmd/TRACE", function(res){
-                $("#generate-button-response").val("Success!! Graph Generated");
-                debug_area.val("Success Graph Generated")
-                var data = [] 
-                xdata = [] 
-                for(var i = 0; i < res.xdata.length; i++){
-                    // data.push({x: res.xdata[i] * (Math.pow(10, 9)), y: res.ydata[i]});
-                    data.push([res.xdata[i] * (Math.pow(10, 9)), res.ydata[i]])
-                    xdata.push(res.xdata[i])
-                }
-                plotGraph(data, res.xlabel, res.ylabel);
-                $("#container-graph-instructions").css("visibility", "visible"); 
-            });
-        });
 
         // This function is responsible for plotting the OSA Trace graph
         function plotGraph(data, xlabel, ylabel, xdata){
