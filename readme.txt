@@ -2,11 +2,12 @@
 
 # Description
 
-The Cloud Optical Spectrum Analyzer is a Single Page web application that lets you connect to virtual Optical Spectrum Analyzer. 
-This application uses Python-Flask as the back-end framework and JavaScript framework for front-end development. 
+The Cloud Optical Spectrum Analyzer is a Single Page web application that lets you connect to virtual Optical Spectrum Analyzer.
+It allows users to send specific set of commands such as (START, STOP, STATE, SINGLE and others.) for communicating with the instrument.
+This application uses Python-Flask as the back-end framework, JavaScript framework, Jquery and HighCharts Library for front-end development. 
 
-* Date Created: 06th June, 2020 
-* Last Modification Date: 06th June, 2020 
+* Date Created: 07th June, 2020 
+* Last Modification Date: 07th June, 2020 
 
 ## Author 
     * Romal Sehgal (rm35909@@dal.ca) 
@@ -22,12 +23,14 @@ See the following section for detailed step-by-step instructions on how to insta
 
 ### Installing
 
+** Required libraries to run the application locally 
+
 (1) pip install flask
 
 (2) pip install requests 
 
 
-# Running the Project 
+# For running the project 
 
 (1) Run command: python app.py or python3 app.py (if python version is 3)
 
@@ -41,5 +44,10 @@ Once the build and deployment are complete, the website is automatically refresh
 
 
 ##Deployment Link
+https://cloud-osa-optical-analyzer.herokuapp.com
 
 ##Git Repo Link 
+https://github.com/sehgalromal/Cloud-Optical-Spectrum-Analyzer
+
+## For more instructions please refer to this link:
+https://cloud-osa-optical-analyzer.herokuapp.com/instructions 

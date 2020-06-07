@@ -220,7 +220,7 @@
                 <div class="input-group-prepend">
                     <span class="input-group-text"><b>Communication Log Area</b></span>
                 </div>
-                <textarea readonly rows="4" cols="250" id="debug_window" class="form-control" aria-label="With textarea"></textarea>
+                <textarea readonly rows="4" cols="320" id="debug_window" class="form-control" aria-label="With textarea"></textarea>
                 <br>
                 <button type="button" class="btn btn-primary" id="clear_button">Clear</button>
             </div>
@@ -334,6 +334,7 @@
         $("#generate_graph").click(function(){
             $.getJSON("/cmd/TRACE", function(res){
                 $("#generate-button-response").val("Success!! Graph Generated");
+                debug_area.val("Success Graph Generated")
                 var data = [] 
                 xdata = [] 
                 for(var i = 0; i < res.xdata.length; i++){

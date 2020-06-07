@@ -4,6 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Interacting With Graph</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+
 </head>
 <body>
     <h1>Follow these sequence of actions for retrieving the OSA trace and display the results on graph based on these commands</h1>
@@ -17,13 +22,84 @@
     <span>Click on the <strong>stop</strong> button to stop the aquisition</h2>
     <br>
     <br>
-    <strong>You can execute any command in different combinations and see the results</strong>
+    <strong>You can execute any command in different combinations and see the desired results</strong>
     <h1>Few instructions while interacting with Graph and Web Application</h1>
     <ul>
         <li>Select the Specific by mouse of Graph you want to zoom in</li>
-        <li>For moving the view of the graph when Panning; Select the specific graph first and then scroll left or right. </li>
+        <li>When Panning the graph; Select the specific graph first and then scroll left or right horizontally for viewing specific area</li>
         <li>For downloading or viewing the graph in full screen mode, click on top-right menu bar for available options</li>
         <li>If any issue occurs while interacting with the application, please reload it</li>
     </ul>
+    <h2>For accessing different api via endpoints: Refer to the following table</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Command</th>
+                <th>Rest API Endpoint</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>/cmd</td>
+                <td>https://cloud-osa-optical-analyzer.herokuapp.com + <b>/cmd</b></td>
+                <td>returns command prompt</td>
+            </tr>
+            <tr>
+                <td>/cmd/IDN</td>
+                <td>https://cloud-osa-optical-analyzer.herokuapp.com + <b>/cmd/IDN</b></td>
+                <td>returns x-axis limits in m</td>
+            </tr>
+            <tr>
+                <td>/cmd/LIM</td>
+                <td>https://cloud-osa-optical-analyzer.herokuapp.com + <b>/cmd/LIM</b></td>
+                <td>returns device identification string</td>
+            </tr>
+            <tr>
+                <td>/cmd/LIM/[min max]</td>
+                <td>Specify min and max limits when accssing the url:
+                  <b>  https://cloud-osa-optical-analyzer.herokuapp.com + /cmd/LIM/ + [min,max] </b>
+                </td>
+                <td>sets x-axis limits in nm</td>
+            </tr>
+            <tr>
+                <td>/cmd/ECHO/string</td>
+                <td>Specify String when accessing this url: 
+                    <b> 
+                        https://cloud-osa-optical-analyzer.herokuapp.com + /cmd/ECHO + string</b>
+                </td>
+                <td>Emulates query command and sends a string to API, will get the same string back</td>
+            </tr>
+            <tr>
+                <td>/cmd/PING</td>
+                <td>https://cloud-osa-optical-analyzer.herokuapp.com + <b>/cmd/PING</b></td>
+                <td>Returns PONG</td>
+            </tr>
+            <tr>
+                <td>/cmd/START</td>
+                <td>https://cloud-osa-optical-analyzer.herokuapp.com + <b>/cmd/START</b></td>
+                <td>sets instrument state to continues acquisition</td>
+            </tr>
+            <tr>
+                <td>/cmd/STOP</td>
+                <td>https://cloud-osa-optical-analyzer.herokuapp.com + <b>/cmd/STOP</b></td>
+                <td>sets instrument state to IDLE</td>
+            </tr>
+            <tr>
+                <td>/cmd/SINGLE</td>
+                <td>https://cloud-osa-optical-analyzer.herokuapp.com + <b>/cmd/SINGLE</b></td>
+                <td>starts a single scan (blocking operation, single scan takes few seconds)</td>
+            </tr>
+            <tr>
+                <td>/cmd/STATE</td>
+                <td>https://cloud-osa-optical-analyzer.herokuapp.com + <b>/cmd/STATE</b></td>
+                <td>returns instrument state</td>
+            </tr>
+            <tr>
+                <td>/cmd/TRACE</td>
+                <td>https://cloud-osa-optical-analyzer.herokuapp.com + <b>/cmd/TRACE</b></td>
+                <td>returns OSA trace in json format</td>
+            </tr>
+        </tbody>
+    </table>
 </body>
 </html>
